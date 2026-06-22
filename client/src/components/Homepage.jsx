@@ -29,7 +29,7 @@ import legalImg from "../assets/team/legal-advisor.jpg";
 
 import communityImg from "../assets/about/community-work.JPG";
 
-import logo from "../assets/logo.png";
+import logo from "../assets/logo2.png";
 import img1 from "../assets/gallery/img-1.jpg";
 import img2 from "../assets/gallery/img-2.jpg";
 import img3 from "../assets/gallery/img-3.jpg";
@@ -343,28 +343,30 @@ export default function Homepage() {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
             ? "bg-cream/95 backdrop-blur-md shadow-md py-1"
-            : "bg-black/20 backdrop-blur-md py-3"
+            : "bg-charcoal/80 backdrop-blur-md py-3"
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between">
           {/* Logo */}
-          <a href="#home" className="z-50 flex items-center">
-            <img
-              src={logo}
-              alt="DMS Aarohi"
-              className={`object-contain rounded transition-all duration-300 ${
-                scrolled ? "h-10 md:h-12" : "h-12 md:h-14"
-              }`}
-            />
-          </a>
+          <a href="#home" className="flex items-center gap-2 z-50">
+            <img src={logo} alt="DMS AAROHI logo" className="w-11 h-11" />
 
+            <div className="leading-tight">
+              <p className="font-display font-bold text-lg text-teal tracking-wide">
+                DMS AAROHI
+              </p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-coral font-semibold">
+                Social Initiatives
+              </p>
+            </div>
+          </a>
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="relative font-medium text-charcoal/80 hover:text-teal transition-colors group"
+                className={`relative font-medium transition-colors group ${scrolled ? "text-charcoal/80 hover:text-teal" : "text-cream hover:text-gold"}`}
               >
                 {link.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-coral transition-all duration-300 group-hover:w-full" />
@@ -432,7 +434,7 @@ export default function Homepage() {
 
       <section
         id="home"
-        className="relative h-screen min-h-[600px] w-full overflow-hidden"
+        className="relative h-screen min-h-[600px] w-full overflow-hidden pt-[72px]"
       >
         {/* Slides */}
         {HERO_SLIDES.map((slide, i) => (
@@ -449,7 +451,7 @@ export default function Homepage() {
                 i === activeSlide ? "animate-slow-zoom" : ""
               }`}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/40 to-charcoal/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/40 to-charcoal/10" />
           </div>
         ))}
 
@@ -633,7 +635,10 @@ export default function Homepage() {
       <WaveDivider flip color="#FBF7F0" />
 
       {/* ============================ IMPACT AREAS (like DTH "Categories") ============================ */}
-      <section id="initiatives" className="bg-cream py-16 md:py-24 -mt-1">
+      <section
+        id="initiatives"
+        className="bg-cream pt-4 pb-16 md:pt-8 md:pb-24 -mt-1"
+      >
         <div className="max-w-7xl mx-auto px-5 md:px-8">
           <Reveal className="text-center max-w-2xl mx-auto mb-14">
             <span className="inline-block text-coral font-semibold uppercase tracking-[0.25em] text-sm mb-3">
@@ -824,7 +829,7 @@ export default function Homepage() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-charcoal/70 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    {/* <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                       <div className="flex gap-2 justify-center">
                         <a
                           href={SOCIAL_LINKS.facebook}
@@ -839,7 +844,7 @@ export default function Homepage() {
                           <FaInstagram />
                         </a>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <h3 className="font-display font-bold text-lg text-charcoal">
                     {member.name}
