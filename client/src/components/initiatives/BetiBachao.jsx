@@ -9,23 +9,23 @@
 import { ShieldCheck, Heart, Users, Megaphone, GraduationCap, Sparkles, Handshake } from "lucide-react";
 import { InitiativePage } from "./shared";
 
-import heroImg1 from "../../assets/beti-bachao/beti-2.JPG";
-import heroImg2 from "../../assets/beti-bachao/beti-15.JPG";
+import heroImg1 from "../../assets/beti-bachao/beti-2.jpg";
+import heroImg2 from "../../assets/beti-bachao/beti-15.jpg";
 import heroImg3 from "../../assets/beti-bachao/beti-3.jpg";
 import heroImg4 from "../../assets/beti-bachao/beti-8.JPG";
 
-import g1 from "../../assets/beti-bachao/beti-15.JPG";
-import g2 from "../../assets/beti-bachao/beti-12.JPG";
+import g1 from "../../assets/beti-bachao/beti-15.jpg";
+import g2 from "../../assets/beti-bachao/beti-12.jpg";
 import g3 from "../../assets/beti-bachao/beti-5.jpg";
-import g4 from "../../assets/beti-bachao/beti-6.JPG";
+import g4 from "../../assets/beti-bachao/beti-6.jpg";
 import g5 from "../../assets/beti-bachao/beti-7.jpg";
-import g6 from "../../assets/beti-bachao/beti-8.jpg";
+import g6 from "../../assets/beti-bachao/beti-8.JPG";
 import g7 from "../../assets/beti-bachao/beti-10.jpg";
-import g8 from "../../assets/beti-bachao/beti-11.JPG";
+import g8 from "../../assets/beti-bachao/beti-11.jpg";
 import g9 from "../../assets/beti-bachao/beti-9.JPG";
-import g10 from "../../assets/beti-bachao/beti-13.JPG";
-import g11 from "../../assets/beti-bachao/beti-14.JPG";
-import g12 from "../../assets/beti-bachao/beti-4.JPG";
+import g10 from "../../assets/beti-bachao/beti-13.jpg";
+import g11 from "../../assets/beti-bachao/beti-14.jpg";
+import g12 from "../../assets/beti-bachao/beti-4.jpg";
 
 const HERO_SLIDES = [
   {
