@@ -13,23 +13,26 @@ import {
   Phone,
   Mail,
   MapPin,
+  Calendar,
   Menu,
+  Star,
   X,
   ChevronLeft,
   ChevronRight,
+  Send,
 } from "lucide-react";
 import presidentImg from "../assets/team/president.png";
 import vpImg from "../assets/team/vp.jpg";
 import vp2Img from "../assets/team/vp2.jpg";
 import gsImg from "../assets/team/general-secretary.jpg";
 import secretaryImg from "../assets/team/secretary.jpg";
-import ambassadorImg from "../assets/team/brand-ambassador.png";
+import adImg from "../assets/team/advisor.jpg";
 import executiveImg from "../assets/team/executive-member.png";
 import legalImg from "../assets/team/legal-advisor.jpg";
 
 import communityImg from "../assets/about/community-work.JPG";
 
-import logo from "../assets/logo2.png";
+import logo from "../assets/logo.png";
 import img1 from "../assets/gallery/img-1.jpg";
 import img2 from "../assets/gallery/img-2.jpg";
 import img3 from "../assets/gallery/img-3.jpg";
@@ -44,13 +47,15 @@ import img11 from "../assets/gallery/img-11.JPG";
 import img12 from "../assets/gallery/img-12.JPG";
 
 import bloodCamp1 from "../assets/hero/blood-camp-1.jpg";
+import eventClothImg from "../assets/hero/clothes-donation.jpeg";
+import eventBloodImg from "../assets/hero/blood-camp-1.jpg";
 import childEducation1 from "../assets/hero/child-education-1.jpg";
 import seniorCitizen1 from "../assets/hero/senior-citizen-1.jpg";
-import clothDistribution1 from "../assets/hero/cloth-distribution-1.jpg";
+import clothDistribution1 from "../assets/hero/clothes-donation.jpeg";
 
 const PHONE = "+91 9810225442";
 const EMAIL = "dmsaarohi@gmail.com";
-const ADDRESS = "A5, 272, Paschim Vihar, New Delhi, India";
+const ADDRESS = "A5, 272, Paschim Vihar, New Delhi";
 
 const SOCIAL_LINKS = {
   facebook: "https://facebook.com/dmsaarohi",
@@ -90,33 +95,39 @@ const HERO_SLIDES = [
 const IMPACT_AREAS = [
   {
     icon: Droplet,
-    title: "Blood Donation",
-    desc: "Mass awareness camps and a verified donor network for emergencies.",
+    title: "Blood Donation & Heathcare",
+    href: "/initiatives/blood-donation",
+    desc: "Building a verified blood donor network and organizing blood donation drives to support patients during medical emergencies.",
   },
   {
     icon: GraduationCap,
     title: "Child Education",
-    desc: "Support and learning platforms for rural and urban underprivileged children.",
-  },
-  {
-    icon: Users,
-    title: "Senior Citizen Care",
-    desc: "Programs that bring health, dignity and happiness to our elders.",
-  },
-  {
-    icon: Leaf,
-    title: "Environment Awareness",
-    desc: "Drives and education programs for a cleaner, greener future.",
-  },
-  {
-    icon: Shirt,
-    title: "Cloth Distribution",
-    desc: "Collecting and distributing clothes to families in need.",
+    href: "/initiatives/child-education",
+    desc: "Providing educational support and learning opportunities for underprivileged children in rural and urban communities.",
   },
   {
     icon: ShieldCheck,
     title: "Beti Bachao Initiative",
-    desc: "Campaigns promoting the protection and empowerment of the girl child.",
+    href: "/initiatives/beti-bachao",
+    desc: "Promoting the protection, education, and empowerment of the girl child through awareness campaigns and community programs.",
+  },
+  {
+    icon: Shirt,
+    title: "Cloth Distribution",
+    href: "/initiatives/cloth-distribution",
+    desc: "Collecting and distributing clothes and essential items to underprivileged families, especially during seasonal and emergency needs.",
+  },
+  {
+    icon: Users,
+    title: "Senior Citizen Welfare",
+    href: "/initiatives/senior-citizen",
+    desc: "Supporting senior citizens through healthcare, social engagement, and initiatives that promote dignity, well-being, and a better quality of life.",
+  },
+  {
+    icon: Leaf,
+    title: "Environment Awareness",
+    href: "/initiatives/environment",
+    desc: "Creating awareness about environmental conservation through plantation drives, cleanliness campaigns, and sustainable community initiatives.",
   },
 ];
 
@@ -124,18 +135,18 @@ const IMPACT_AREAS = [
 const HOW_WE_WORK = [
   {
     step: "01",
-    title: "We Identify",
-    desc: "We identify communities and individuals who need support the most — through ground surveys and local volunteer networks.",
+    title: "Identify Community Needs",
+    desc: "We work closely with local communities, volunteers, and our partners to identify individuals and families who need immediate support.",
   },
   {
     step: "02",
-    title: "We Organize",
-    desc: "We plan and organize camps, drives and awareness programs with the help of our volunteers and partners.",
+    title: "Plan & Organize",
+    desc: "Our dedicated team coordinates donation drives, awareness campaigns, blood donation camps, educational program and community welfare activities.",
   },
   {
     step: "03",
-    title: "We Deliver Impact",
-    desc: "From blood units to books, clothes to care — we make sure help reaches the right hands, verified and on time.",
+    title: "Deliver Meaningful Impact",
+    desc: "With the support of our volunteers, donors, and partners, we create meaningful change through healthcare, education, and environmental initiatives.",
   },
 ];
 
@@ -156,10 +167,10 @@ const GALLERY_IMAGES = [
 
 // Impact stats — animated counters
 const STATS = [
-  { value: 12, suffix: "+", label: "Years of Service" },
-  { value: 25000, suffix: "+", label: "Blood Units Facilitated" },
-  { value: 100, suffix: "+", label: "Camps & Drives Organized" },
-  { value: 5000, suffix: "+", label: "Lives Touched" },
+  { value: 14, suffix: "+", label: "Years of Service" },
+  { value: 6, suffix: "+", label: "Community Initiatives" },
+  { value: 100, suffix: "+", label: "Awareness Programs" },
+  { value: 1000, suffix: "+", label: "Lives Positively Impacted" },
 ];
 
 // Team members — replace with real team photos
@@ -190,9 +201,9 @@ const TEAM = [
     image: secretaryImg,
   },
   {
-    name: "Peehu Srivastava",
-    role: "Brand Ambassador",
-    image: ambassadorImg,
+    name: "G.B. Mathur",
+    role: "Advisor",
+    image: adImg,
   },
   {
     name: "Shalini Lal",
@@ -203,6 +214,29 @@ const TEAM = [
     name: "Sumit Kumar",
     role: "Legal Advisor",
     image: legalImg,
+  },
+];
+
+export const UPCOMING_EVENTS = [
+  {
+    title: "Cloth Distribution Drive",
+    date: "August 2026",
+    location: "Greater Noida West — Near Char Murti",
+    desc: "Join us as we collect and distribute clothes to underprivileged families. Every garment donated brings warmth, dignity and hope to someone in need.",
+    image: eventClothImg,
+    tag: "Distribution Drive",
+    tagColor: "bg-gold",
+    icon: "👕",
+  },
+  {
+    title: "Blood Donation Camp",
+    date: "September 2026",
+    location: "Surya Nagar, Ghaziabad",
+    desc: "Join us in saving lives through voluntary blood donation. Your contribution can provide timely support to patients in critical need and bring hope during medical emergencies.",
+    image: eventBloodImg,
+    tag: "Health Camp",
+    tagColor: "bg-coral",
+    icon: "🩸",
   },
 ];
 
@@ -277,6 +311,27 @@ function Reveal({ children, className = "", delay = 0 }) {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const shouldScroll =
+      sessionStorage.getItem("scrollTo") === "contact" ||
+      window.location.hash === "#contact";
+    if (!shouldScroll) return;
+    const scrollToContact = () => {
+      const el = document.getElementById("contact");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+        try {
+          sessionStorage.removeItem("scrollTo");
+        } catch (err) {}
+      } else {
+        // retry briefly until element mounts
+        setTimeout(scrollToContact, 100);
+      }
+    };
+    // delay slightly to let React mount content
+    setTimeout(scrollToContact, 80);
+  }, []);
+
   return (
     <div
       ref={ref}
@@ -306,6 +361,356 @@ function WaveDivider({ flip = false, color = "#FBF7F0" }) {
         />
       </svg>
     </div>
+  );
+}
+
+// ─── Upcoming Events Section (IMPROVED — big image cards) ────────────────────
+
+export function UpcomingEvents() {
+  return (
+    <section className="bg-cream py-16 md:py-18">
+      <div className="max-w-6xl mx-auto px-5 md:px-8">
+        <Reveal className="text-center mb-14">
+          <span className="inline-block text-coral font-semibold uppercase tracking-[0.25em] text-sm mb-3">
+            Mark Your Calendar
+          </span>
+          <h2 className="font-display font-bold text-3xl md:text-5xl text-teal leading-tight">
+            Upcoming Events
+          </h2>
+          <p className="mt-4 text-charcoal/65 max-w-xl mx-auto">
+            Be part of something meaningful. Join us at our upcoming drives and
+            camps to make a direct, lasting impact in your community.
+          </p>
+        </Reveal>
+
+        <div className="bg-[#F3EEE7] border border-[#E7DED4] rounded-[32px] p-6 md:p-8 shadow-sm">
+          <div className="grid md:grid-cols-2 gap-8">
+            {UPCOMING_EVENTS.map((event, i) => (
+              <Reveal key={event.title} delay={i * 150}>
+                <div className="group relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-white">
+                  {/* Image */}
+                  <div className="relative h-48 md:h-60 overflow-hidden">
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    {/* Dark gradient overlay on image */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/20 to-transparent" />
+
+                    {/* Tag badge on image */}
+                    <div className="absolute top-4 left-4">
+                      <span
+                        className={`${event.tagColor} text-cream text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md`}
+                      >
+                        {event.tag}
+                      </span>
+                    </div>
+
+                    {/* Emoji on image bottom-right */}
+                    <div className="absolute bottom-4 right-4 w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl border border-white/30">
+                      {event.icon}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-4 md:p-6">
+                    <h3 className="font-display font-bold text-xl md:text-2xl text-charcoal mb-3 group-hover:text-teal transition-colors duration-300">
+                      {event.title}
+                    </h3>
+
+                    <div className="flex flex-wrap gap-4 mb-4">
+                      <div className="flex items-center gap-2 text-sm text-charcoal/65">
+                        <div className="w-7 h-7 rounded-lg bg-coral/10 flex items-center justify-center">
+                          <Calendar className="w-4 h-4 text-coral" />
+                        </div>
+                        <span className="font-medium">{event.date}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-charcoal/65">
+                        <div className="w-7 h-7 rounded-lg bg-teal/10 flex items-center justify-center">
+                          <MapPin className="w-4 h-4 text-teal" />
+                        </div>
+                        <span className="font-medium">{event.location}</span>
+                      </div>
+                    </div>
+
+                    <p className="text-charcoal/65 text-sm leading-relaxed mb-6">
+                      {event.desc}
+                    </p>
+
+                    <a
+                      href="/#contact"
+                      className="inline-flex items-center gap-2 text-sm font-bold text-teal hover:text-coral transition-colors group/link"
+                    >
+                      Register Your Interest
+                      <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                    </a>
+                  </div>
+
+                  {/* Bottom accent line */}
+                  <div className="h-1 w-0 group-hover:w-full bg-gradient-to-r from-teal to-coral transition-all duration-500" />
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* CTA below events */}
+          {/* <Reveal delay={300} className="mt-12 text-center">
+          <div className="inline-flex items-center gap-3 bg-teal/5 border border-teal/20 rounded-2xl px-8 py-5">
+            <Star className="w-5 h-5 text-gold flex-shrink-0" />
+            <p className="text-charcoal/75 text-sm md:text-base">
+              Want to stay updated on all our events?
+            </p>
+            <a
+              href="/#contact"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-teal text-cream font-semibold text-sm shadow-md hover:scale-105 active:scale-95 transition-all duration-200 flex-shrink-0"
+            >
+              Stay Connected
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </Reveal> */}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Contact Section (Map + Form) ────────────────────────────────────────────
+function ContactSection() {
+  return (
+    <div className="bg-cream">
+      <section id="contact" className="relative py-12 md:py-8 overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-72 h-72 bg-coral/5 rounded-full" />
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-teal/5 rounded-full" />
+
+        <div className="relative max-w-7xl mx-auto px-5 md:px-8">
+          <Reveal className="text-center max-w-2xl mx-auto mb-8">
+            <span className="inline-block text-coral font-semibold uppercase tracking-[0.25em] text-sm mb-3">
+              Get In Touch
+            </span>
+            <h2 className="font-display font-bold text-3xl md:text-5xl text-teal leading-tight">
+              Let's Create Change Together
+            </h2>
+            <p className="mt-3 text-charcoal/65 max-w-xl mx-auto">
+              Have a question, want to volunteer, or wish to partner with us?
+              Reach out — we'd love to hear from you.
+            </p>
+          </Reveal>
+
+          {/* Contact info cards */}
+          <div className="bg-[#F3EEE7] border border-[#E7DED4] rounded-[32px] p-6 md:p-8 shadow-sm">
+            {/* Contact info cards */}
+            <div className="grid sm:grid-cols-3 gap-4 mb-8">
+              <Reveal delay={0}>
+                <div className="flex items-center gap-4 bg-white rounded-2xl p-4 shadow-sm border border-charcoal/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  <div className="w-11 h-11 rounded-xl bg-coral/10 flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-5 h-5 text-coral" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-charcoal/50 font-semibold mb-0.5">
+                      Call Us
+                    </p>
+
+                    <a
+                      href={`tel:${PHONE}`}
+                      className="font-semibold text-charcoal hover:text-coral transition-colors"
+                    >
+                      {PHONE}
+                    </a>
+                  </div>
+                </div>
+              </Reveal>
+              <Reveal delay={100}>
+                <div className="flex items-center gap-4 bg-white rounded-2xl p-4 shadow-sm border border-charcoal/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  <div className="w-11 h-11 rounded-xl bg-teal/10 flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-5 h-5 text-teal" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-charcoal/50 font-semibold mb-0.5">
+                      Email Us
+                    </p>
+
+                    <a
+                      href={`mailto:${EMAIL}`}
+                      className="font-semibold text-charcoal hover:text-teal transition-colors break-all"
+                    >
+                      {EMAIL}
+                    </a>
+                  </div>
+                </div>
+              </Reveal>
+              <Reveal delay={200}>
+                <div className="flex items-center gap-4 bg-white rounded-2xl p-4 shadow-sm border border-charcoal/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  <div className="w-11 h-11 rounded-xl bg-gold/15 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-5 h-5 text-gold" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-charcoal/50 font-semibold mb-0.5">
+                      Visit Us
+                    </p>
+                    <p className="font-semibold text-charcoal leading-snug">
+                      {ADDRESS}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+
+            {/* Map + Form */}
+            <div className="grid lg:grid-cols-2 gap-6 items-stretch">
+              {/* Map */}
+              <Reveal className="h-full">
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl h-full min-h-[320px] border-4 border-white">
+                  <iframe
+                    title="DMS AAROHI Location"
+                    src={`https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed`}
+                    className="w-full h-full min-h-[320px]"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                  {/* Floating location badge — moved to bottom-left so it no longer
+                    sits over Google's own "View larger map" link (top-left) */}
+                  <div className="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg px-5 py-3 flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-coral flex items-center justify-center flex-shrink-0">
+                      <MapPin className="w-4 h-4 text-cream" />
+                    </div>
+                    <div>
+                      <p className="font-display font-bold text-sm text-charcoal">
+                        DMS AAROHI
+                      </p>
+                      <p className="text-xs text-charcoal/60">
+                        Paschim Vihar, New Delhi
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+
+              {/* Contact form */}
+              <Reveal delay={150} className="h-full">
+                <form
+                  onSubmit={(e) => e.preventDefault()}
+                  className="h-full bg-white rounded-3xl shadow-2xl p-4 md:p-5 flex flex-col"
+                >
+                  <h3 className="font-display font-bold text-xl text-charcoal mb-1">
+                    Send Us a Message
+                  </h3>
+                  <p className="text-charcoal/60 text-sm mb-4">
+                    We usually respond within 24–48 hours.
+                  </p>
+
+                  <div className="grid sm:grid-cols-2 gap-3 mb-3">
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/50 mb-1.5">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Your name"
+                        className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/20 transition-all duration-200 text-charcoal placeholder:text-charcoal/35"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/50 mb-1.5">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        placeholder="+91 00000 00000"
+                        className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/20 transition-all duration-200 text-charcoal placeholder:text-charcoal/35"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/50 mb-1.5">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="you@example.com"
+                      className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/20 transition-all duration-200 text-charcoal placeholder:text-charcoal/35"
+                    />
+                  </div>
+
+                  <div className="mb-4 flex-1">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/50 mb-1.5">
+                      Message
+                    </label>
+                    <textarea
+                      rows={3}
+                      placeholder="Tell us how you'd like to get involved..."
+                      className="w-full h-full min-h-[80px] px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/20 transition-all duration-200 text-charcoal placeholder:text-charcoal/35 resize-none"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="group w-full sm:w-auto self-start px-8 py-3 rounded-full bg-coral text-cream font-semibold shadow-lg shadow-coral/30 hover:bg-coral-dark hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
+                  >
+                    Send Message
+                    <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </form>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── "Be a Part of the Change" CTA ───────────────────────────────────────────
+
+export function BeAPartCTA() {
+  return (
+    <section className="relative bg-teal py-16 md:py-24 overflow-hidden mt-16">
+      <div className="absolute -top-16 -left-16 w-64 h-64 bg-gold/10 rounded-full" />
+      <div className="absolute -bottom-20 -right-10 w-80 h-80 bg-cream/5 rounded-full" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cream/5 rounded-full" />
+
+      <div className="relative max-w-4xl mx-auto px-5 md:px-8 text-center">
+        <Reveal>
+          <span className="inline-block text-gold font-semibold uppercase tracking-[0.25em] text-sm mb-4">
+            Together We Can
+          </span>
+          <h2 className="font-display font-bold text-3xl md:text-5xl text-cream leading-tight mb-5">
+            Be a Part of the Change
+          </h2>
+          <p className="text-cream/85 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+            Every contribution — whether through volunteering, donating or
+            participating in our initiatives — helps us create stronger
+            communities and transform lives. Together, we can build a healthier,
+            more compassionate and sustainable future.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a
+              href="/#donate"
+              className="group px-8 py-4 rounded-full bg-coral text-cream font-bold shadow-xl shadow-coral/30 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2"
+            >
+              Donate Now
+              <Heart className="w-4 h-4 group-hover:scale-125 transition-transform" />
+            </a>
+            <a
+              href="/#contact"
+              className="px-8 py-4 rounded-full bg-cream/15 border-2 border-cream/50 text-cream font-bold hover:bg-cream/25 transition-all duration-200"
+            >
+              Become a Volunteer
+            </a>
+            <a
+              href="/#contact"
+              className="px-8 py-4 rounded-full bg-gold text-charcoal font-bold shadow-lg hover:scale-105 active:scale-95 transition-all duration-200"
+            >
+              Contact Us
+            </a>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
@@ -342,23 +747,20 @@ export default function Homepage() {
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-cream/95 backdrop-blur-md shadow-md py-1"
-            : "bg-charcoal/80 backdrop-blur-md py-3"
+            ? "bg-[#FFF8F0]/95 backdrop-blur-md shadow-lg py-2"
+            : "bg-black/10 backdrop-blur-sm py-2"
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2 z-50">
-            <img src={logo} alt="DMS AAROHI logo" className="w-11 h-11" />
-
-            <div className="leading-tight">
-              <p className="font-display font-bold text-lg text-teal tracking-wide">
-                DMS AAROHI
-              </p>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-coral font-semibold">
-                Social Initiatives
-              </p>
-            </div>
+          <a href="#home" className="z-50 flex items-center">
+            <img
+              src={logo}
+              alt="DMS Aarohi"
+              className={`object-contain transition-all duration-300 ${
+                scrolled ? "h-8 md:h-10" : "h-10 md:h-12"
+              }`}
+            />
           </a>
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-8">
@@ -478,17 +880,17 @@ export default function Homepage() {
             style={{ animationDelay: "0.3s" }}
           >
             <a
-              href="#donate"
+              href="#contact"
               className="group px-7 py-3.5 rounded-full bg-coral text-cream font-semibold shadow-xl shadow-coral/40 hover:bg-coral-dark hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2"
             >
-              Become a Donor
+              Become a Volunteer
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <a
-              href="#about"
+              href="#initiatives"
               className="px-7 py-3.5 rounded-full bg-cream/10 border border-cream/40 text-cream font-semibold backdrop-blur-sm hover:bg-cream/20 transition-all duration-200"
             >
-              Learn More
+              Explore Our Initiatives
             </a>
           </div>
         </div>
@@ -562,22 +964,31 @@ export default function Homepage() {
             <span className="inline-block text-coral font-semibold uppercase tracking-[0.25em] text-sm mb-3">
               About Us
             </span>
-            <h2 className="font-display font-bold text-3xl md:text-5xl text-teal leading-tight mb-5">
-              A mission to create real, lasting social
-              <br /> change
-            </h2>
+            <h3 className="font-display font-bold text-2xl md:text-[42px] text-teal leading-tight mb-5">
+              Together, We Empower
+              <br />
+              Lives and Build a
+              <br />
+              Better Tomorrow.
+            </h3>
             <p className="text-charcoal/75 leading-relaxed mb-4">
-              DMS AAROHI is a New Delhi-based non-profit society, registered
-              under 12A and 80G (5)(VI) of the Income Tax Act, 1961. Since 2013,
-              we've worked to build a reliable backbone of voluntary blood
-              donors — especially for Thalassemia patients — and to spread mass
-              awareness about blood donation.
+              Established in 2013, DMS AAROHI is a registered non-profit
+              organization based in New Delhi, recognized under Sections 12A and
+              80G of the Income Tax Act, 1961. We are committed to creating
+              meaningful social impact by improving the lives of individuals and
+              communities through sustainable initiatives.
+            </p>
+            <p className="text-charcoal/75 leading-relaxed mb-6">
+              Our key focus areas include Blood Donation & Healthcare Support,
+              Child Education, Beti Bachao Initiative, Cloth Distribution,
+              Senior Citizen Welfare and Environmental Awareness.
             </p>
             <p className="text-charcoal/75 leading-relaxed mb-8">
-              Beyond healthcare, we focus on child education, senior citizen
-              welfare, environmental awareness and campaigns like Beti Bachao —
-              driven entirely by volunteers, partners and well-wishers who
-              believe small, consistent efforts create lasting change.
+              Driven by dedicated volunteers, generous donors and compassionate
+              supporters, we believe that every contribution, whether through
+              time, resources or kindness has the power to transform lives.
+              Together, we are building stronger communities and creating a
+              brighter, more inclusive future for all.
             </p>
             <div className="flex flex-wrap gap-6">
               <div className="flex items-center gap-3">
@@ -621,7 +1032,7 @@ export default function Homepage() {
         <div className="max-w-7xl mx-auto px-5 md:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {STATS.map((stat, i) => (
             <Reveal key={stat.label} delay={i * 100}>
-              <p className="font-display font-bold text-3xl md:text-5xl text-gold">
+              <p className="font-display font-bold text-4xl md:text-[50px] text-gold">
                 <Counter value={stat.value} suffix={stat.suffix} />
               </p>
               <p className="mt-2 text-cream/80 text-sm md:text-base font-medium">
@@ -634,7 +1045,7 @@ export default function Homepage() {
 
       <WaveDivider flip color="#FBF7F0" />
 
-      {/* ============================ IMPACT AREAS (like DTH "Categories") ============================ */}
+      {/* =================== IMPACT AREAS (like DTH "Categories") ==================== */}
       <section
         id="initiatives"
         className="bg-cream pt-4 pb-16 md:pt-8 md:pb-24 -mt-1"
@@ -666,7 +1077,16 @@ export default function Homepage() {
                     <p className="text-charcoal/65 leading-relaxed relative">
                       {area.desc}
                     </p>
-                    <div className="mt-5 h-[2px] w-0 bg-coral group-hover:w-16 transition-all duration-300" />
+                    <div className="mt-5 flex items-center justify-between">
+                      <div className="h-[2px] w-0 bg-coral group-hover:w-16 transition-all duration-300" />
+                      <a
+                        href={area.href}
+                        className="flex items-center gap-1 text-sm font-semibold text-teal group-hover:text-coral hover:gap-2 transition-all duration-300"
+                      >
+                        Learn More
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
                   </div>
                 </Reveal>
               );
@@ -675,7 +1095,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ============================ HOW WE WORK (like DTH "How to participate") ============================ */}
+      {/* ================= HOW WE WORK (like DTH "How to participate") =================== */}
       <section className="relative bg-teal py-16 md:py-24 overflow-hidden">
         {/* Decorative background pattern */}
         <div className="absolute inset-0 opacity-10">
@@ -687,9 +1107,9 @@ export default function Homepage() {
         <div className="relative max-w-7xl mx-auto px-5 md:px-8">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <span className="inline-block text-gold font-semibold uppercase tracking-[0.25em] text-sm mb-3">
-              How We Work
+              How We Create Impact
             </span>
-            <h2 className="font-display font-bold text-3xl md:text-5xl text-cream leading-tight">
+            <h2 className="font-display font-bold text-3xl md:text-5xl text-cream leading-[1.2] md:leading-[1.2]">
               Three steps that turn intention into impact
             </h2>
           </Reveal>
@@ -707,7 +1127,7 @@ export default function Homepage() {
                   <h3 className="font-display font-bold text-xl md:text-2xl text-cream mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-cream/75 leading-relaxed max-w-xs">
+                  <p className="text-cream/75 leading-relaxed max-w-sm">
                     {step.desc}
                   </p>
                 </div>
@@ -737,7 +1157,7 @@ export default function Homepage() {
             </Reveal>
 
             <Reveal delay={150}>
-              <span className="inline-block text-coral font-semibold uppercase tracking-[0.25em] text-sm mb-3">
+              <span className="inline-block text-coral font-semibold uppercase tracking-[0.25em] text-md mb-3">
                 President Speaks
               </span>
               <blockquote className="font-display text-xl md:text-3xl text-charcoal leading-relaxed mb-6">
@@ -756,9 +1176,9 @@ export default function Homepage() {
               </p>
               <div>
                 <p className="font-display font-bold text-lg text-teal">
-                  — President
+                  — Pankaj Mathur
                 </p>
-                <p className="text-charcoal/60">DMS AAROHI</p>
+                <p className="text-charcoal/60">President, DMS Aarohi</p>
               </div>
             </Reveal>
           </div>
@@ -767,8 +1187,8 @@ export default function Homepage() {
 
       <WaveDivider color="#0E5A52" />
 
-      {/* ============================ GALLERY (like DTH "Media Gallery") ============================ */}
-      <section id="gallery" className="bg-teal py-16 md:py-24 -mt-1">
+      {/* ============== GALLERY ("Media Gallery") ===================== */}
+      <section id="gallery" className="bg-teal py-14 md:py-20 -mt-1">
         <div className="max-w-7xl mx-auto px-5 md:px-8">
           <Reveal className="text-center max-w-2xl mx-auto mb-14">
             <span className="inline-block text-gold font-semibold uppercase tracking-[0.25em] text-sm mb-3">
@@ -807,7 +1227,7 @@ export default function Homepage() {
       <WaveDivider flip color="#FBF7F0" />
 
       {/* ============================ TEAM ============================ */}
-      <section id="team" className="bg-cream py-16 md:py-24 -mt-1">
+      <section id="team" className="bg-cream py-16 md:py-14 -mt-1">
         <div className="max-w-7xl mx-auto px-5 md:px-8">
           <Reveal className="text-center max-w-2xl mx-auto mb-14">
             <span className="inline-block text-coral font-semibold uppercase tracking-[0.25em] text-sm mb-3">
@@ -859,82 +1279,39 @@ export default function Homepage() {
         </div>
       </section>
 
-      <section
-        id="donate"
-        className="relative bg-coral py-16 md:py-24 overflow-hidden"
-      >
-        <div className="absolute -top-20 -left-20 w-72 h-72 bg-cream/10 rounded-full" />
-        <div className="absolute -bottom-24 -right-10 w-80 h-80 bg-cream/10 rounded-full" />
-        <div className="relative max-w-4xl mx-auto px-5 md:px-8 text-center">
-          <Reveal>
-            <h2 className="font-display font-bold text-3xl md:text-5xl text-cream leading-tight mb-5">
-              Your support can change a life today
-            </h2>
-            <p className="text-cream/90 text-lg max-w-xl mx-auto mb-8">
-              Whether it's donating blood, volunteering your time, or
-              contributing funds — every action helps us reach one more person
-              in need. Donations are eligible for tax exemption under 80G.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <a
-                href="#contact"
-                className="px-8 py-4 rounded-full bg-cream text-coral font-bold shadow-xl hover:scale-105 active:scale-95 transition-all duration-200"
-              >
-                Donate Now
-              </a>
-              <a
-                href="#contact"
-                className="px-8 py-4 rounded-full bg-transparent border-2 border-cream text-cream font-bold hover:bg-cream/10 transition-all duration-200"
-              >
-                Become a Volunteer
-              </a>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* ════════════════════════════════════════════════════
+          6. UPCOMING EVENTS (Big image cards)
+          ════════════════════════════════════════════════════ */}
+      <UpcomingEvents />
+
+      {/* ════════════════════════════════════════════════════
+          7. CONTACT (Map + Form)
+          ════════════════════════════════════════════════════ */}
+      <ContactSection />
+
+      {/* "Be a Part of the Change" */}
+      <BeAPartCTA />
 
       {/* ============================ FOOTER ============================ */}
-      <footer id="contact" className="bg-charcoal text-cream pt-16 pb-8">
+      <footer className="bg-charcoal text-cream pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-5 md:px-8 grid md:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-full bg-teal flex items-center justify-center">
-                <Heart className="w-5 h-5 text-cream" />
-              </div>
-              <p className="font-display font-bold text-lg">DMS AAROHI</p>
+              <a href="#home" className="z-50 flex items-center">
+                <img
+                  src={logo}
+                  alt="DMS Aarohi"
+                  className="object-contain transition-all duration-300 h-10 md:h-12"
+                />
+              </a>
             </div>
             <p className="text-cream/60 text-sm leading-relaxed mb-5">
               A registered non-profit society working since 2013 for blood
               donation, child education, senior citizen care, environment
               awareness and community welfare in New Delhi.
             </p>
-            <div className="flex gap-3">
-              <a
-                href={SOCIAL_LINKS.facebook}
-                className="w-9 h-9 rounded-full border border-cream/20 flex items-center justify-center hover:bg-coral hover:border-coral transition-colors"
-              >
-                <FaFacebook />
-              </a>
-              <a
-                href={SOCIAL_LINKS.instagram}
-                className="w-9 h-9 rounded-full border border-cream/20 flex items-center justify-center hover:bg-coral hover:border-coral transition-colors"
-              >
-                <FaInstagram />
-              </a>
-              <a
-                href={SOCIAL_LINKS.youtube}
-                className="w-9 h-9 rounded-full border border-cream/20 flex items-center justify-center hover:bg-coral hover:border-coral transition-colors"
-              >
-                <FaYoutube />
-              </a>
-              <a
-                href={SOCIAL_LINKS.twitter}
-                className="w-9 h-9 rounded-full border border-cream/20 flex items-center justify-center hover:bg-coral hover:border-coral transition-colors"
-              >
-                <FaTwitter />
-              </a>
-            </div>
+            <div className="flex gap-3"></div>
           </div>
 
           {/* Quick links */}
@@ -960,7 +1337,7 @@ export default function Homepage() {
               Our Initiatives
             </h4>
             <ul className="space-y-2 text-cream/70">
-              {IMPACT_AREAS.slice(0, 5).map((area) => (
+              {IMPACT_AREAS.map((area) => (
                 <li key={area.title}>
                   <a
                     href="#initiatives"
