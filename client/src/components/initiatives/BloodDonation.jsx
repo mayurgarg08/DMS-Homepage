@@ -19,13 +19,13 @@ import g2 from "../../assets/blood-ground/blood-2.jpg";
 import g3 from "../../assets/blood-ground/blood-9.jpg";
 import g4 from "../../assets/blood-ground/blood-4.jpg";
 import g5 from "../../assets/blood-ground/blood-5.jpg";
-import g6 from "../../assets/blood-ground/blood-6.JPG";
-import g7 from "../../assets/blood-ground/blood-7.JPG";
-import g8 from "../../assets/blood-ground/blood-8.JPG";
-import g10 from "../../assets/blood-ground/blood-10.JPG";
-import g11 from "../../assets/blood-ground/blood-11.JPG";
-import g12 from "../../assets/blood-ground/blood-12.JPG";
-import g13 from "../../assets/blood-ground/blood-13.JPG";
+import g6 from "../../assets/blood-ground/blood-6.jpg";
+import g7 from "../../assets/blood-ground/blood-7.jpg";
+import g8 from "../../assets/blood-ground/blood-8.jpg";
+import g10 from "../../assets/blood-ground/blood-10.jpg";
+import g11 from "../../assets/blood-ground/blood-11.jpg";
+import g12 from "../../assets/blood-ground/blood-12.jpg";
+import g13 from "../../assets/blood-ground/blood-13.jpg";
 
 const HERO_SLIDES = [
   {
