@@ -14,15 +14,15 @@ import heroImg4 from "../../assets/child-hero/child-14.jpg";
 import g1 from "../../assets/child-hero/child-3.jpg";
 import g2 from "../../assets/child-hero/child-5.jpg";  
 import g3 from "../../assets/child-hero/child-6.jpg";
-import g4 from "../../assets/child-hero/child-7.jpg";
-import g5 from "../../assets/child-hero/child-8.jpg";
-import g6 from "../../assets/child-hero/child-9.jpg";
-import g7 from "../../assets/child-hero/child-10.jpg";
-import g8 from "../../assets/child-hero/child-11.jpg";
-import g9 from "../../assets/child-hero/child-12.jpg";
+import g4 from "../../assets/child-hero/child-7.JPG";
+import g5 from "../../assets/child-hero/child-8.JPG";
+import g6 from "../../assets/child-hero/child-9.JPG";
+import g7 from "../../assets/child-hero/child-10.JPG";
+import g8 from "../../assets/child-hero/child-11.JPG";
+import g9 from "../../assets/child-hero/child-12.JPG";
 import g10 from "../../assets/child-hero/child-13.jpg";
 import g11 from "../../assets/child-hero/child-14.jpg";
-import g12 from "../../assets/child-hero/child-15.jpg";
+import g12 from "../../assets/child-hero/child-15.JPG";
 
 
 const HERO_SLIDES = [
