@@ -24,6 +24,13 @@ import {
   CheckCircle2,
   Users,
   XIcon,
+  Star,
+  GraduationCap,
+  Droplet,
+  ShieldCheck,
+  Shirt,
+  Send,
+  Leaf,
   UsersIcon,
   HeartPulseIcon,
   DropletIcon,
@@ -55,6 +62,45 @@ export const NAV_LINKS = [
   { label: "Gallery", href: "/#gallery" },
   { label: "Team", href: "/#team" },
   { label: "Contact", href: "/#contact" },
+];
+
+const IMPACT_AREAS = [
+  {
+    icon: Droplet,
+    title: "Blood Donation & Heathcare",
+    href: "/initiatives/blood-donation",
+    desc: "Building a verified blood donor network and organizing blood donation drives to support patients during medical emergencies.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Child Education",
+    href: "/initiatives/child-education",
+    desc: "Providing educational support and learning opportunities for underprivileged children in rural and urban communities.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Beti Bachao Initiative",
+    href: "/initiatives/beti-bachao",
+    desc: "Promoting the protection, education, and empowerment of the girl child through awareness campaigns and community programs.",
+  },
+  {
+    icon: Shirt,
+    title: "Cloth Distribution",
+    href: "/initiatives/cloth-distribution",
+    desc: "Collecting and distributing clothes and essential items to underprivileged families, especially during seasonal and emergency needs.",
+  },
+  {
+    icon: Users,
+    title: "Senior Citizen Welfare",
+    href: "/initiatives/senior-citizen",
+    desc: "Supporting senior citizens through healthcare, social engagement, and initiatives that promote dignity, well-being, and a better quality of life.",
+  },
+  {
+    icon: Leaf,
+    title: "Environment Awareness",
+    href: "/initiatives/environment",
+    desc: "Creating awareness about environmental conservation through plantation drives, cleanliness campaigns, and sustainable community initiatives.",
+  },
 ];
 
 // ─── Utility Components ───────────────────────────────────────────────────────
@@ -456,9 +502,329 @@ export function WaveDivider({ flip = false, color = "#FBF7F0" }) {
   );
 }
 
+function VolunteerModal({ isOpen, onClose }) {
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    if (isOpen) window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  const WHY_VOLUNTEER = [
+    { icon: Heart, text: "Create real, lasting impact in your community" },
+    { icon: Users, text: "Join a warm, driven family of 1000+ volunteers" },
+    { icon: Star, text: "Gain experience, certificates & recognition" },
+  ];
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-charcoal/50 backdrop-blur-md animate-fade-in-up"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full md:w-[68vw] max-w-5xl max-h-[92vh] bg-cream rounded-[28px] md:rounded-[32px] shadow-2xl overflow-hidden grid md:grid-cols-[42%_58%]"
+      >
+        {/* Close button — floats above both panels */}
+        <button
+          onClick={onClose}
+          aria-label="Close volunteer form"
+          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/70 backdrop-blur-sm hover:bg-white shadow-md flex items-center justify-center text-charcoal transition-all duration-200 hover:rotate-90"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        {/* ── LEFT: Animated visual panel ── */}
+        <div className="relative hidden md:flex flex-col justify-between overflow-hidden bg-gradient-to-br from-gold/15 via-cream to-coral/10 p-8 lg:p-10">
+          {/* Decorative floating circles */}
+          <div className="absolute -top-16 -left-16 w-56 h-56 bg-gold/20 rounded-full blur-2xl" />
+          <div className="absolute bottom-0 -right-10 w-64 h-64 bg-coral/10 rounded-full blur-2xl" />
+          <div className="absolute top-1/3 right-0 w-24 h-24 border-2 border-gold/30 rounded-full" />
+
+          {/* Animated icon composition */}
+          <div className="relative flex-1 flex items-center justify-center">
+            <div className="relative w-52 h-52 lg:w-60 lg:h-60 flex items-center justify-center">
+              {/* Pulsing rings */}
+              <span className="absolute inset-0 rounded-full bg-gold/20 animate-ping-slow" />
+              <span className="absolute inset-4 rounded-full bg-gold/25" />
+              <span className="absolute inset-10 rounded-full bg-white shadow-xl flex items-center justify-center">
+                <Heart className="w-14 h-14 lg:w-16 lg:h-16 text-coral animate-pulse" />
+              </span>
+
+              {/* Orbiting badges */}
+              <div className="absolute -top-2 -left-4 w-14 h-14 rounded-2xl bg-white shadow-lg flex items-center justify-center animate-float">
+                <GraduationCap className="w-6 h-6 text-teal" />
+              </div>
+              <div
+                className="absolute -bottom-3 -right-3 w-14 h-14 rounded-2xl bg-white shadow-lg flex items-center justify-center animate-float"
+                style={{ animationDelay: "0.6s" }}
+              >
+                <Droplet className="w-6 h-6 text-coral" />
+              </div>
+              <div
+                className="absolute top-4 -right-8 w-11 h-11 rounded-full bg-gold shadow-lg flex items-center justify-center animate-float"
+                style={{ animationDelay: "1.1s" }}
+              >
+                <Leaf className="w-5 h-5 text-cream" />
+              </div>
+            </div>
+          </div>
+
+          {/* Text + why-volunteer list */}
+          <div className="relative">
+            <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">
+              Join Our Mission
+            </span>
+            <h3 className="font-display font-bold text-2xl lg:text-[28px] text-charcoal leading-tight mb-4">
+              Your time can change
+              <br />
+              someone's story.
+            </h3>
+            <div className="space-y-3">
+              {WHY_VOLUNTEER.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-coral" />
+                    </div>
+                    <p className="text-sm text-charcoal/70 font-medium">
+                      {item.text}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ── RIGHT: Form panel ── */}
+        <div className="relative bg-white overflow-y-auto max-h-[92vh] scrollbar-hide">
+          {/* Mobile-only compact header (since left panel is hidden below md) */}
+          <div className="md:hidden bg-gradient-to-br from-gold/15 to-coral/10 px-6 pt-8 pb-6">
+            <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center mb-4">
+              <Heart className="w-7 h-7 text-coral" />
+            </div>
+            <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">
+              Join Our Mission
+            </span>
+            <h3 className="font-display font-bold text-2xl text-charcoal leading-tight">
+              Become a Volunteer
+            </h3>
+          </div>
+
+          <div className="px-6 py-7 md:px-9 md:py-10">
+            <div className="hidden md:block mb-6">
+              <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">
+                Volunteer Registration
+              </span>
+              <h3 className="font-display font-bold text-[26px] text-charcoal leading-tight">
+                Tell us about yourself
+              </h3>
+              <p className="text-charcoal/55 text-sm mt-1.5">
+                Fields marked * are required — everything else is optional.
+              </p>
+            </div>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                onClose();
+              }}
+            >
+              {/* Required section */}
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your name"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 00000 00000"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder="you@example.com"
+                  className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                />
+              </div>
+
+              <div className="h-px bg-charcoal/8 mb-5" />
+              <p className="text-xs font-semibold uppercase tracking-wider text-charcoal/35 mb-4">
+                Optional details — help us match you better
+              </p>
+
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Age
+                  </label>
+                  <input
+                    type="number"
+                    min="12"
+                    placeholder="Your age"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Your city"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Occupation
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Student, professional, etc."
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Availability
+                  </label>
+                  <select
+                    defaultValue=""
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal"
+                  >
+                    <option value="" disabled>
+                      Select availability
+                    </option>
+                    <option value="weekdays">Weekdays</option>
+                    <option value="weekends">Weekends</option>
+                    <option value="flexible">Flexible / Anytime</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Preferred Mode
+                  </label>
+                  <select
+                    defaultValue=""
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal"
+                  >
+                    <option value="" disabled>
+                      Select mode
+                    </option>
+                    <option value="onground">On-ground</option>
+                    <option value="online">Remote / Online</option>
+                    <option value="both">Both</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    How did you hear about us?
+                  </label>
+                  <select
+                    defaultValue=""
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal"
+                  >
+                    <option value="" disabled>
+                      Select an option
+                    </option>
+                    <option value="social">Social Media</option>
+                    <option value="friend">Friend / Family</option>
+                    <option value="event">An Event / Camp</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                  Area of Interest
+                </label>
+                <select
+                  defaultValue=""
+                  className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal"
+                >
+                  <option value="" disabled>
+                    Select an initiative
+                  </option>
+                  {IMPACT_AREAS.map((area) => (
+                    <option key={area.title} value={area.title}>
+                      {area.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                  Message
+                </label>
+                <textarea
+                  rows={3}
+                  placeholder="Tell us a bit about yourself..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30 resize-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="group w-full px-8 py-3.5 rounded-full bg-gradient-to-r from-gold to-coral text-cream font-bold shadow-lg shadow-gold/30 hover:shadow-xl hover:shadow-gold/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                Submit Registration
+                <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+              <p className="text-center text-xs text-charcoal/40 mt-3">
+                We'll get back to you within 24–48 hours.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Navbar ──────────────────────────────────────────────────────────────────
 
-export function Navbar() {
+export function Navbar({ onVolunteerOpen }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -505,12 +871,12 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
-          <a
-            href="/#donate"
-            className="px-6 py-2.5 rounded-full bg-coral text-cream font-semibold shadow-lg shadow-coral/30 hover:bg-coral-dark hover:scale-105 active:scale-95 transition-all duration-200"
+          <button
+            onClick={() => onVolunteerOpen?.()}
+            className="group px-7 py-3.5 rounded-full bg-coral text-cream font-semibold shadow-xl shadow-coral/40 hover:bg-coral-dark hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2"
           >
-            Donate Now
-          </a>
+            Volunteer Now
+          </button>
         </div>
 
         <button
@@ -781,6 +1147,8 @@ export function InitiativePage({
 }) {
   // ── Hero slider state ──
   const [activeSlide, setActiveSlide] = useState(0);
+  const [volunteerOpen, setVolunteerOpen] = useState(false);
+
   const slides =
     heroSlides.length > 0
       ? heroSlides
@@ -799,7 +1167,7 @@ export function InitiativePage({
 
   return (
     <div className="font-body text-charcoal bg-cream overflow-x-hidden">
-      <Navbar />
+      <Navbar onVolunteerOpen={() => setVolunteerOpen(true)} />
 
       {/* ════════════════════════════════════════════════════
           1. HERO SLIDER — same controls as Homepage
@@ -1206,8 +1574,11 @@ export function InitiativePage({
           </div>
         </div>
       </section>
-
       <Footer />
+      <VolunteerModal
+        isOpen={volunteerOpen}
+        onClose={() => setVolunteerOpen(false)}
+      />
     </div>
   );
 }

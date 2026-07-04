@@ -1009,18 +1009,19 @@ export function BeAPartCTA() {
             more compassionate and sustainable future.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a
+            {/* <a
               href="/#donate"
               className="group px-8 py-4 rounded-full bg-coral text-cream font-bold shadow-xl shadow-coral/30 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2"
             >
               Donate Now
               <Heart className="w-4 h-4 group-hover:scale-125 transition-transform" />
-            </a>
+            </a> */}
             <button
               onClick={() => setVolunteerOpen(true)}
-              className="px-8 py-4 rounded-full bg-cream/15 border-2 border-cream/50 text-cream font-bold hover:bg-cream/25 transition-all duration-200"
+              className="px-8 py-4 rounded-full bg-coral text-cream font-bold shadow-xl shadow-coral/30 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2"
             >
               Become a Volunteer
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
             <a
               href="/#contact"
@@ -1104,12 +1105,12 @@ export default function Homepage() {
 
           {/* CTA */}
           <div className="hidden lg:flex items-center gap-3">
-            <a
-              href="#donate"
-              className="px-6 py-2.5 rounded-full bg-coral text-cream font-semibold shadow-lg shadow-coral/30 hover:bg-coral-dark hover:scale-105 active:scale-95 transition-all duration-200"
+            <button
+              onClick={() => setVolunteerOpen(true)}
+              className="group px-7 py-3.5 rounded-full bg-coral text-cream font-semibold shadow-xl shadow-coral/40 hover:bg-coral-dark hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2"
             >
-              Donate Now
-            </a>
+              Volunteer Now
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -1717,7 +1718,10 @@ export default function Homepage() {
           </p>
         </div>
       </footer>
-      <VolunteerModal isOpen={volunteerOpen} onClose={() => setVolunteerOpen(false)} />
+      <VolunteerModal
+        isOpen={volunteerOpen}
+        onClose={() => setVolunteerOpen(false)}
+      />
     </div>
   );
 }
