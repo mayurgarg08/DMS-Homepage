@@ -5,8 +5,9 @@
  * Swap gallery imports with your real blood-camp photos.
  * heroSlides: use 3-4 different blood camp / awareness photos for variety.
  */
+import { useState } from "react";
 import { Droplet, Heart, ShieldCheck, HeartPulse, HeartHandshake, Megaphone, Stethoscope, UserPlus, Users } from "lucide-react";
-import { InitiativePage } from "./shared";
+import { InitiativePage, BloodDonorModal } from "./shared";
 
 import heroImg1 from "../../assets/hero/blood-camp-1.jpg";
 import heroImg2 from "../../assets/blood-camp/blood-img-1.jpg";
@@ -123,27 +124,31 @@ const SOCIAL_IMPACT = {
 };
 
 export default function BloodDonation() {
+   const [donorOpen, setDonorOpen] = useState(false);
   return (
-    <InitiativePage
-      heroSlides={HERO_SLIDES}
-      heroTitle="Blood Donation & Healthcare"
-      heroTagline="Saving Lives Through Voluntary Blood Donation"
-      accentColor="bg-coral"
-      accentText="text-coral"
-      aboutText={ABOUT_TEXT}
-      aboutImage={aboutImg}
-      aboutBadges={ABOUT_BADGES}
-      activities={ACTIVITIES}
-      galleryImages={[g1, g2, g3, g4, g5, g6, g7, g8, g10, g11, g12, g13]}
-      statsRow={STATS}
-      ctaTitle="Become a Blood Donor"
-      ctaBody="Your one donation can save multiple lives. Join our network of voluntary blood donors and help patients during medical emergencies."
-      ctaButtonLabel="Register as a Blood Donor"
-      ctaButtonHref="/#contact"
-      ctaSideImage={heroImg2}
-      statsRow={STATS}
-      socialImpact={SOCIAL_IMPACT}
-      icon={Droplet}
-    />
+    <>
+      <InitiativePage
+        heroSlides={HERO_SLIDES}
+        heroTitle="Blood Donation & Healthcare"
+        heroTagline="Saving Lives Through Voluntary Blood Donation"
+        accentColor="bg-coral"
+        accentText="text-coral"
+        aboutText={ABOUT_TEXT}
+        aboutImage={aboutImg}
+        aboutBadges={ABOUT_BADGES}
+        activities={ACTIVITIES}
+        galleryImages={[g1, g2, g3, g4, g5, g6, g7, g8, g10, g11, g12, g13]}
+        statsRow={STATS}
+        ctaTitle="Become a Blood Donor"
+        ctaBody="Your one donation can save multiple lives. Join our network of voluntary blood donors and help patients during medical emergencies."
+        ctaButtonLabel="Register as a Blood Donor"
+        ctaButtonHref="/#contact"
+        ctaSideImage={heroImg2}
+        socialImpact={SOCIAL_IMPACT}
+        icon={Droplet}
+        onCtaClick={() => setDonorOpen(true)}
+      />
+      <BloodDonorModal isOpen={donorOpen} onClose={() => setDonorOpen(false)} />
+    </>
   );
 }

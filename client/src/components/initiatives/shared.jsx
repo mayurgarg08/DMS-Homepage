@@ -23,6 +23,13 @@ import {
   ChevronRight,
   CheckCircle2,
   Users,
+  XIcon,
+  UsersIcon,
+  HeartPulseIcon,
+  DropletIcon,
+  HeartIcon,
+  ShieldCheckIcon,
+  StethoscopeIcon,
 } from "lucide-react";
 import logo from "../../assets/logo.png";
 
@@ -84,6 +91,307 @@ export function Reveal({ children, className = "", delay = 0 }) {
       } ${className}`}
     >
       {children}
+    </div>
+  );
+}
+
+export function BloodDonorModal({ isOpen, onClose }) {
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    if (isOpen) window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  const BLOOD_FACTS = [
+    { icon: HeartPulseIcon, text: "One donation can save up to 3 lives" },
+    {
+      icon: ShieldCheckIcon,
+      text: "Your blood group stays confidential & verified",
+    },
+    { icon: UsersIcon, text: "Join 1000+ donors in our life-saving network" },
+  ];
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-charcoal/50 backdrop-blur-md animate-fade-in-up"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full md:w-[68vw] max-w-5xl max-h-[92vh] bg-cream rounded-[28px] md:rounded-[32px] shadow-2xl overflow-hidden grid md:grid-cols-[42%_58%]"
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          aria-label="Close blood donor form"
+          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/70 backdrop-blur-sm hover:bg-white shadow-md flex items-center justify-center text-charcoal transition-all duration-200 hover:rotate-90"
+        >
+          <XIcon className="w-5 h-5" />
+        </button>
+
+        {/* ── LEFT: Animated visual panel ── */}
+        <div className="relative hidden md:flex flex-col justify-between overflow-hidden bg-gradient-to-br from-coral/15 via-cream to-red-100/40 p-8 lg:p-10">
+          <div className="absolute -top-16 -left-16 w-56 h-56 bg-coral/20 rounded-full blur-2xl" />
+          <div className="absolute bottom-0 -right-10 w-64 h-64 bg-red-200/30 rounded-full blur-2xl" />
+          <div className="absolute top-1/3 right-0 w-24 h-24 border-2 border-coral/30 rounded-full" />
+
+          {/* Animated droplet composition */}
+          <div className="relative flex-1 flex items-center justify-center">
+            <div className="relative w-52 h-52 lg:w-60 lg:h-60 flex items-center justify-center">
+              <span className="absolute inset-0 rounded-full bg-coral/20 animate-ping-slow" />
+              <span className="absolute inset-4 rounded-full bg-coral/15" />
+              <span className="absolute inset-10 rounded-full bg-white shadow-xl flex items-center justify-center">
+                <DropletIcon
+                  className="w-16 h-16 lg:w-[68px] lg:h-[68px] text-coral animate-pulse"
+                  fill="#E8543E"
+                  fillOpacity={0.12}
+                />
+              </span>
+
+              <div className="absolute -top-2 -left-4 w-14 h-14 rounded-2xl bg-white shadow-lg flex items-center justify-center animate-float">
+                <HeartPulseIcon className="w-6 h-6 text-coral" />
+              </div>
+              <div
+                className="absolute -bottom-3 -right-3 w-14 h-14 rounded-2xl bg-white shadow-lg flex items-center justify-center animate-float"
+                style={{ animationDelay: "0.6s" }}
+              >
+                <StethoscopeIcon className="w-6 h-6 text-teal" />
+              </div>
+              <div
+                className="absolute top-4 -right-8 w-11 h-11 rounded-full bg-coral shadow-lg flex items-center justify-center animate-float"
+                style={{ animationDelay: "1.1s" }}
+              >
+                <HeartIcon className="w-5 h-5 text-cream" />
+              </div>
+            </div>
+          </div>
+
+          <div className="relative">
+            <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">
+              Be a Lifesaver
+            </span>
+            <h3 className="font-display font-bold text-2xl lg:text-[28px] text-charcoal leading-tight mb-4">
+              A drop of yours,
+              <br />a lifetime for someone.
+            </h3>
+            <div className="space-y-3">
+              {BLOOD_FACTS.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-coral" />
+                    </div>
+                    <p className="text-sm text-charcoal/70 font-medium">
+                      {item.text}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ── RIGHT: Form panel (scrollbar hidden) ── */}
+        <div className="relative bg-white overflow-y-auto max-h-[92vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:none]">
+          <div className="md:hidden bg-gradient-to-br from-coral/15 to-red-100/40 px-6 pt-8 pb-6">
+            <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center mb-4">
+              <DropletIcon className="w-7 h-7 text-coral" />
+            </div>
+            <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">
+              Be a Lifesaver
+            </span>
+            <h3 className="font-display font-bold text-2xl text-charcoal leading-tight">
+              Register as a Blood Donor
+            </h3>
+          </div>
+
+          <div className="px-6 py-7 md:px-9 md:py-10">
+            <div className="hidden md:block mb-6">
+              <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">
+                Donor Registration
+              </span>
+              <h3 className="font-display font-bold text-[26px] text-charcoal leading-tight">
+                Join our verified donor network
+              </h3>
+              <p className="text-charcoal/55 text-sm mt-1.5">
+                Fields marked * are required — everything else is optional.
+              </p>
+            </div>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                onClose();
+              }}
+            >
+              {/* Required section */}
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your name"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 00000 00000"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder="you@example.com"
+                  className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                />
+              </div>
+
+              <div className="h-px bg-charcoal/8 mb-5" />
+              <p className="text-xs font-semibold uppercase tracking-wider text-charcoal/35 mb-4">
+                Optional details — help us match you to a camp
+              </p>
+
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Age
+                  </label>
+                  <input
+                    type="number"
+                    min="18"
+                    placeholder="Your age"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Blood Group
+                  </label>
+                  <select
+                    defaultValue=""
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/25 transition-all duration-200 text-charcoal"
+                  >
+                    <option value="" disabled>
+                      Select blood group
+                    </option>
+                    {[
+                      "A+",
+                      "A-",
+                      "B+",
+                      "B-",
+                      "O+",
+                      "O-",
+                      "AB+",
+                      "AB-",
+                      "Not sure",
+                    ].map((bg) => (
+                      <option key={bg} value={bg}>
+                        {bg}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Weight (kg)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="e.g. 60"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Your city"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Last Donation Date
+                  </label>
+                  <input
+                    type="date"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/25 transition-all duration-200 text-charcoal"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                    Preferred Camp Location
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Nearest area / camp"
+                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
+                  Medical Conditions / Notes
+                </label>
+                <textarea
+                  rows={3}
+                  placeholder="Any allergies, medications, or health notes we should know..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30 resize-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="group w-full px-8 py-3.5 rounded-full bg-gradient-to-r from-coral to-red-500 text-cream font-bold shadow-lg shadow-coral/30 hover:shadow-xl hover:shadow-coral/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                Register as Donor
+                <DropletIcon className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+              </button>
+              <p className="text-center text-xs text-charcoal/40 mt-3">
+                Our team will verify and contact you within 24–48 hours.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -469,6 +777,7 @@ export function InitiativePage({
   ctaSideImage,
   socialImpact,
   icon: Icon,
+  onCtaClick,
 }) {
   // ── Hero slider state ──
   const [activeSlide, setActiveSlide] = useState(0);
@@ -539,7 +848,13 @@ export function InitiativePage({
             <a
               href={ctaButtonHref}
               onClick={(e) => {
-                if (ctaButtonHref && ctaButtonHref.includes("#contact")) {
+                if (onCtaClick) {
+                  e.preventDefault();
+                  onCtaClick();
+                } else if (
+                  ctaButtonHref &&
+                  ctaButtonHref.includes("#contact")
+                ) {
                   e.preventDefault();
                   window.location.href = ctaButtonHref;
                 }
@@ -831,7 +1146,13 @@ export function InitiativePage({
                 <a
                   href={ctaButtonHref}
                   onClick={(e) => {
-                    if (ctaButtonHref && ctaButtonHref.includes("#contact")) {
+                    if (onCtaClick) {
+                      e.preventDefault();
+                      onCtaClick();
+                    } else if (
+                      ctaButtonHref &&
+                      ctaButtonHref.includes("#contact")
+                    ) {
                       e.preventDefault();
                       window.location.href = ctaButtonHref;
                     }

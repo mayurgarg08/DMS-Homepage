@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+
+import scrollbarHide from 'tailwind-scrollbar-hide';
+
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -36,14 +36,18 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(8px)" },
         },
+        "ping-slow": {
+          "75%, 100%": { transform: "scale(1.6)", opacity: "0" },
+        },
       },
       animation: {
         "fade-in-up": "fade-in-up 0.8s ease-out forwards",
         "slow-zoom": "slow-zoom 6s ease-out forwards",
         float: "float 3s ease-in-out infinite",
         "bounce-slow": "bounce-slow 2s ease-in-out infinite",
+        "ping-slow": "ping-slow 2.5s cubic-bezier(0, 0, 0.2, 1) infinite",
       },
     },
   },
-  plugins: [],
+   plugins: [scrollbarHide],
 };
