@@ -21,37 +21,16 @@ import {
   ChevronRight,
   Send,
 } from "lucide-react";
-import presidentImg from "../assets/team/president.png";
-import vpImg from "../assets/team/vp.jpg";
-import vp2Img from "../assets/team/vp2.jpg";
-import gsImg from "../assets/team/general-secretary.jpg";
-import secretaryImg from "../assets/team/secretary.jpg";
-import adImg from "../assets/team/advisor.jpg";
-import executiveImg from "../assets/team/executive-member.png";
-import legalImg from "../assets/team/legal-advisor.jpg";
-
 import communityImg from "../assets/about/community-work.JPG";
-
 import logo from "../assets/logo.png";
-import img1 from "../assets/gallery/img-1.jpg";
-import img2 from "../assets/gallery/img-2.jpg";
-import img3 from "../assets/gallery/img-3.jpg";
-import img4 from "../assets/gallery/img-4.jpg";
-import img5 from "../assets/gallery/img-5.jpg";
-import img6 from "../assets/gallery/img-6.JPG";
-import img7 from "../assets/gallery/img-7.jpg";
-import img8 from "../assets/gallery/img-8.jpg";
-import img9 from "../assets/gallery/img-9.jpg";
-import img10 from "../assets/gallery/img-10.jpg";
-import img11 from "../assets/gallery/img-11.JPG";
-import img12 from "../assets/gallery/img-12.JPG";
 
 import bloodCamp1 from "../assets/hero/blood-camp-1.jpg";
-import eventClothImg from "../assets/hero/clothes-donation.jpeg";
-import eventBloodImg from "../assets/hero/blood-camp-1.jpg";
 import childEducation1 from "../assets/hero/child-education-1.jpg";
 import seniorCitizen1 from "../assets/hero/senior-citizen-1.jpg";
 import clothDistribution1 from "../assets/hero/clothes-donation.jpeg";
+import presidentImg from "../assets/team/president.png";
+import { useTeam, useGallery, useEvents, useHeroSlides, useInitiativeContent } from "../hooks/useSiteData";
+import { submitVolunteer } from "../lib/api";
 
 const PHONE = "+91 9810225442";
 const EMAIL = "dmsaarohi@gmail.com";
@@ -65,7 +44,7 @@ const SOCIAL_LINKS = {
 };
 
 // Hero slider images — swap with real event photos (blood camps, etc.)
-const HERO_SLIDES = [
+const DEFAULT_HERO_SLIDES = [
   {
     image: bloodCamp1,
     title: "Every drop counts",
@@ -150,20 +129,6 @@ const HOW_WE_WORK = [
   },
 ];
 
-const GALLERY_IMAGES = [
-  img1,
-  img2,
-  img3,
-  img4,
-  img5,
-  img6,
-  img7,
-  img8,
-  img9,
-  img10,
-  img11,
-  img12,
-];
 
 // Impact stats — animated counters
 const STATS = [
@@ -171,73 +136,6 @@ const STATS = [
   { value: 6, suffix: "+", label: "Community Initiatives" },
   { value: 100, suffix: "+", label: "Awareness Programs" },
   { value: 1000, suffix: "+", label: "Lives Positively Impacted" },
-];
-
-// Team members — replace with real team photos
-const TEAM = [
-  {
-    name: "Pankaj Mathur",
-    role: "President, DMS AAROHI",
-    image: presidentImg,
-  },
-  {
-    name: "Kapil Tiwari",
-    role: "Vice President",
-    image: vpImg,
-  },
-  {
-    name: "Shalinder Kumar",
-    role: "Vice President",
-    image: vp2Img,
-  },
-  {
-    name: "Dr. Bhawna Bhat",
-    role: "General Secretary",
-    image: gsImg,
-  },
-  {
-    name: "Pratibha Asthana",
-    role: "Secretary",
-    image: secretaryImg,
-  },
-  {
-    name: "G.B. Mathur",
-    role: "Advisor",
-    image: adImg,
-  },
-  {
-    name: "Shalini Lal",
-    role: "Executive Member",
-    image: executiveImg,
-  },
-  {
-    name: "Sumit Kumar",
-    role: "Legal Advisor",
-    image: legalImg,
-  },
-];
-
-export const UPCOMING_EVENTS = [
-  {
-    title: "Cloth Distribution Drive",
-    date: "August 2026",
-    location: "Greater Noida West — Near Char Murti",
-    desc: "Join us as we collect and distribute clothes to underprivileged families. Every garment donated brings warmth, dignity and hope to someone in need.",
-    image: eventClothImg,
-    tag: "Distribution Drive",
-    tagColor: "bg-gold",
-    icon: "👕",
-  },
-  {
-    title: "Blood Donation Camp",
-    date: "September 2026",
-    location: "Surya Nagar, Ghaziabad",
-    desc: "Join us in saving lives through voluntary blood donation. Your contribution can provide timely support to patients in critical need and bring hope during medical emergencies.",
-    image: eventBloodImg,
-    tag: "Health Camp",
-    tagColor: "bg-coral",
-    icon: "🩸",
-  },
 ];
 
 const NAV_LINKS = [
@@ -366,7 +264,7 @@ function WaveDivider({ flip = false, color = "#FBF7F0" }) {
 
 // ─── Upcoming Events Section (IMPROVED — big image cards) ────────────────────
 
-export function UpcomingEvents() {
+export function UpcomingEvents({ events = [] }) {
   return (
     <section className="bg-cream py-16 md:py-18">
       <div className="max-w-6xl mx-auto px-5 md:px-8">
@@ -385,8 +283,8 @@ export function UpcomingEvents() {
 
         <div className="bg-[#F3EEE7] border border-[#E7DED4] rounded-[32px] p-6 md:p-8 shadow-sm">
           <div className="grid md:grid-cols-2 gap-8">
-            {UPCOMING_EVENTS.map((event, i) => (
-              <Reveal key={event.title} delay={i * 150}>
+          {events.map((event, i) => (
+            <Reveal key={event._id} delay={i * 150}>
                 <div className="group relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-white">
                   {/* Image */}
                   <div className="relative h-48 md:h-60 overflow-hidden">
@@ -665,22 +563,50 @@ function ContactSection() {
 }
 
 function VolunteerModal({ isOpen, onClose }) {
+  const [form, setForm] = useState({
+    name: "", phone: "", email: "", age: "", city: "", occupation: "",
+    availability: "", mode: "", heardFrom: "", interestArea: "", message: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
   useEffect(() => {
-    const handleEsc = (e) => {
-      if (e.key === "Escape") onClose();
-    };
+    const handleEsc = (e) => { if (e.key === "Escape") onClose(); };
     if (isOpen) window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
   }, [isOpen, onClose]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setSubmitted(false);
+      setError("");
+      setForm({ name: "", phone: "", email: "", age: "", city: "", occupation: "", availability: "", mode: "", heardFrom: "", interestArea: "", message: "" });
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
+
+  const set = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSubmitting(true);
+    try {
+      await submitVolunteer(form);
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const WHY_VOLUNTEER = [
     { icon: Heart, text: "Create real, lasting impact in your community" },
@@ -697,7 +623,6 @@ function VolunteerModal({ isOpen, onClose }) {
         onClick={(e) => e.stopPropagation()}
         className="relative w-full md:w-[68vw] max-w-5xl max-h-[92vh] bg-cream rounded-[28px] md:rounded-[32px] shadow-2xl overflow-hidden grid md:grid-cols-[42%_58%]"
       >
-        {/* Close button — floats above both panels */}
         <button
           onClick={onClose}
           aria-label="Close volunteer form"
@@ -706,47 +631,33 @@ function VolunteerModal({ isOpen, onClose }) {
           <X className="w-5 h-5" />
         </button>
 
-        {/* ── LEFT: Animated visual panel ── */}
+        {/* LEFT: Animated visual panel */}
         <div className="relative hidden md:flex flex-col justify-between overflow-hidden bg-gradient-to-br from-gold/15 via-cream to-coral/10 p-8 lg:p-10">
-          {/* Decorative floating circles */}
           <div className="absolute -top-16 -left-16 w-56 h-56 bg-gold/20 rounded-full blur-2xl" />
           <div className="absolute bottom-0 -right-10 w-64 h-64 bg-coral/10 rounded-full blur-2xl" />
           <div className="absolute top-1/3 right-0 w-24 h-24 border-2 border-gold/30 rounded-full" />
 
-          {/* Animated icon composition */}
           <div className="relative flex-1 flex items-center justify-center">
             <div className="relative w-52 h-52 lg:w-60 lg:h-60 flex items-center justify-center">
-              {/* Pulsing rings */}
               <span className="absolute inset-0 rounded-full bg-gold/20 animate-ping-slow" />
               <span className="absolute inset-4 rounded-full bg-gold/25" />
               <span className="absolute inset-10 rounded-full bg-white shadow-xl flex items-center justify-center">
                 <Heart className="w-14 h-14 lg:w-16 lg:h-16 text-coral animate-pulse" />
               </span>
-
-              {/* Orbiting badges */}
               <div className="absolute -top-2 -left-4 w-14 h-14 rounded-2xl bg-white shadow-lg flex items-center justify-center animate-float">
                 <GraduationCap className="w-6 h-6 text-teal" />
               </div>
-              <div
-                className="absolute -bottom-3 -right-3 w-14 h-14 rounded-2xl bg-white shadow-lg flex items-center justify-center animate-float"
-                style={{ animationDelay: "0.6s" }}
-              >
+              <div className="absolute -bottom-3 -right-3 w-14 h-14 rounded-2xl bg-white shadow-lg flex items-center justify-center animate-float" style={{ animationDelay: "0.6s" }}>
                 <Droplet className="w-6 h-6 text-coral" />
               </div>
-              <div
-                className="absolute top-4 -right-8 w-11 h-11 rounded-full bg-gold shadow-lg flex items-center justify-center animate-float"
-                style={{ animationDelay: "1.1s" }}
-              >
+              <div className="absolute top-4 -right-8 w-11 h-11 rounded-full bg-gold shadow-lg flex items-center justify-center animate-float" style={{ animationDelay: "1.1s" }}>
                 <Leaf className="w-5 h-5 text-cream" />
               </div>
             </div>
           </div>
 
-          {/* Text + why-volunteer list */}
           <div className="relative">
-            <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">
-              Join Our Mission
-            </span>
+            <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">Join Our Mission</span>
             <h3 className="font-display font-bold text-2xl lg:text-[28px] text-charcoal leading-tight mb-4">
               Your time can change
               <br />
@@ -760,9 +671,7 @@ function VolunteerModal({ isOpen, onClose }) {
                     <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center flex-shrink-0">
                       <Icon className="w-4 h-4 text-coral" />
                     </div>
-                    <p className="text-sm text-charcoal/70 font-medium">
-                      {item.text}
-                    </p>
+                    <p className="text-sm text-charcoal/70 font-medium">{item.text}</p>
                   </div>
                 );
               })}
@@ -770,220 +679,147 @@ function VolunteerModal({ isOpen, onClose }) {
           </div>
         </div>
 
-        {/* ── RIGHT: Form panel ── */}
+        {/* RIGHT: Form panel */}
         <div className="relative bg-white overflow-y-auto max-h-[92vh] scrollbar-hide">
-          {/* Mobile-only compact header (since left panel is hidden below md) */}
           <div className="md:hidden bg-gradient-to-br from-gold/15 to-coral/10 px-6 pt-8 pb-6">
             <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center mb-4">
               <Heart className="w-7 h-7 text-coral" />
             </div>
-            <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">
-              Join Our Mission
-            </span>
-            <h3 className="font-display font-bold text-2xl text-charcoal leading-tight">
-              Become a Volunteer
-            </h3>
+            <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">Join Our Mission</span>
+            <h3 className="font-display font-bold text-2xl text-charcoal leading-tight">Become a Volunteer</h3>
           </div>
 
-          <div className="px-6 py-7 md:px-9 md:py-10">
-            <div className="hidden md:block mb-6">
-              <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">
-                Volunteer Registration
-              </span>
-              <h3 className="font-display font-bold text-[26px] text-charcoal leading-tight">
-                Tell us about yourself
-              </h3>
-              <p className="text-charcoal/55 text-sm mt-1.5">
-                Fields marked * are required — everything else is optional.
+          {submitted ? (
+            <div className="px-6 py-14 md:px-9 flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-full bg-teal/10 flex items-center justify-center mb-5">
+                <Heart className="w-8 h-8 text-teal" />
+              </div>
+              <h3 className="font-display font-bold text-2xl text-charcoal mb-2">Thank you, {form.name.split(" ")[0]}!</h3>
+              <p className="text-charcoal/60 text-sm max-w-sm mb-8">
+                Your registration has been received. Our team will reach out to you within 24–48 hours.
               </p>
-            </div>
-
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                onClose();
-              }}
-            >
-              {/* Required section */}
-              <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Your name"
-                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                    Phone Number *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="+91 00000 00000"
-                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
-                  />
-                </div>
-              </div>
-
-              <div className="mb-5">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="you@example.com"
-                  className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
-                />
-              </div>
-
-              <div className="h-px bg-charcoal/8 mb-5" />
-              <p className="text-xs font-semibold uppercase tracking-wider text-charcoal/35 mb-4">
-                Optional details — help us match you better
-              </p>
-
-              <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                    Age
-                  </label>
-                  <input
-                    type="number"
-                    min="12"
-                    placeholder="Your age"
-                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Your city"
-                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
-                  />
-                </div>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                    Occupation
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Student, professional, etc."
-                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                    Availability
-                  </label>
-                  <select
-                    defaultValue=""
-                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal"
-                  >
-                    <option value="" disabled>
-                      Select availability
-                    </option>
-                    <option value="weekdays">Weekdays</option>
-                    <option value="weekends">Weekends</option>
-                    <option value="flexible">Flexible / Anytime</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                    Preferred Mode
-                  </label>
-                  <select
-                    defaultValue=""
-                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal"
-                  >
-                    <option value="" disabled>
-                      Select mode
-                    </option>
-                    <option value="onground">On-ground</option>
-                    <option value="online">Remote / Online</option>
-                    <option value="both">Both</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                    How did you hear about us?
-                  </label>
-                  <select
-                    defaultValue=""
-                    className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal"
-                  >
-                    <option value="" disabled>
-                      Select an option
-                    </option>
-                    <option value="social">Social Media</option>
-                    <option value="friend">Friend / Family</option>
-                    <option value="event">An Event / Camp</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                  Area of Interest
-                </label>
-                <select
-                  defaultValue=""
-                  className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal"
-                >
-                  <option value="" disabled>
-                    Select an initiative
-                  </option>
-                  {IMPACT_AREAS.map((area) => (
-                    <option key={area.title} value={area.title}>
-                      {area.title}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="mb-6">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">
-                  Message
-                </label>
-                <textarea
-                  rows={3}
-                  placeholder="Tell us a bit about yourself..."
-                  className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30 resize-none"
-                />
-              </div>
-
               <button
-                type="submit"
-                className="group w-full px-8 py-3.5 rounded-full bg-gradient-to-r from-gold to-coral text-cream font-bold shadow-lg shadow-gold/30 hover:shadow-xl hover:shadow-gold/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
+                onClick={onClose}
+                className="px-8 py-3 rounded-full bg-coral text-cream font-semibold shadow-lg shadow-coral/30 hover:scale-105 active:scale-95 transition-all duration-200"
               >
-                Submit Registration
-                <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                Close
               </button>
-              <p className="text-center text-xs text-charcoal/40 mt-3">
-                We'll get back to you within 24–48 hours.
-              </p>
-            </form>
-          </div>
+            </div>
+          ) : (
+            <div className="px-6 py-7 md:px-9 md:py-10">
+              <div className="hidden md:block mb-6">
+                <span className="inline-block text-coral font-semibold uppercase tracking-[0.2em] text-xs mb-2">Volunteer Registration</span>
+                <h3 className="font-display font-bold text-[26px] text-charcoal leading-tight">Tell us about yourself</h3>
+                <p className="text-charcoal/55 text-sm mt-1.5">Fields marked * are required — everything else is optional.</p>
+              </div>
+
+              <form onSubmit={handleSubmit}>
+                <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">Full Name *</label>
+                    <input type="text" required value={form.name} onChange={set("name")} placeholder="Your name" className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">Phone Number *</label>
+                    <input type="tel" required value={form.phone} onChange={set("phone")} placeholder="+91 00000 00000" className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30" />
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">Age</label>
+                    <input type="number" min="12" value={form.age} onChange={set("age")} placeholder="Your age" className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">City</label>
+                    <input type="text" value={form.city} onChange={set("city")} placeholder="Your city" className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30" />
+                  </div>
+                </div>
+
+                <div className="mb-5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">Email Address *</label>
+                  <input type="email" required value={form.email} onChange={set("email")} placeholder="you@example.com" className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30" />
+                </div>
+
+                <div className="h-px bg-charcoal/8 mb-5" />
+                <p className="text-xs font-semibold uppercase tracking-wider text-charcoal/35 mb-4">Optional details — help us match you better</p>
+
+                
+
+                <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">Occupation</label>
+                    <input type="text" value={form.occupation} onChange={set("occupation")} placeholder="Student, professional, etc." className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">Availability</label>
+                    <select value={form.availability} onChange={set("availability")} className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal">
+                      <option value="">Select availability</option>
+                      <option value="Weekdays">Weekdays</option>
+                      <option value="Weekends">Weekends</option>
+                      <option value="Flexible / Anytime">Flexible / Anytime</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">Preferred Mode</label>
+                    <select value={form.mode} onChange={set("mode")} className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal">
+                      <option value="">Select mode</option>
+                      <option value="On-ground">On-ground</option>
+                      <option value="Remote / Online">Remote / Online</option>
+                      <option value="Both">Both</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">How did you hear about us?</label>
+                    <select value={form.heardFrom} onChange={set("heardFrom")} className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal">
+                      <option value="">Select an option</option>
+                      <option value="Social Media">Social Media</option>
+                      <option value="Friend / Family">Friend / Family</option>
+                      <option value="An Event / Camp">An Event / Camp</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">Area of Interest</label>
+                  <select value={form.interestArea} onChange={set("interestArea")} className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal">
+                    <option value="">Select an initiative</option>
+                    {IMPACT_AREAS.map((area) => (
+                      <option key={area.title} value={area.title}>{area.title}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="mb-6">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal/45 mb-1.5">Message</label>
+                  <textarea rows={3} value={form.message} onChange={set("message")} placeholder="Tell us a bit about yourself..." className="w-full px-4 py-2.5 rounded-xl border border-charcoal/10 bg-cream/40 focus:bg-white focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25 transition-all duration-200 text-charcoal placeholder:text-charcoal/30 resize-none" />
+                </div>
+
+                {error && (
+                  <div className="mb-4 bg-coral/10 border border-coral/20 text-coral text-sm rounded-xl px-4 py-2.5">{error}</div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="group w-full px-8 py-3.5 rounded-full bg-gradient-to-r from-gold to-coral text-cream font-bold shadow-lg shadow-gold/30 hover:shadow-xl hover:shadow-gold/40 hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60"
+                >
+                  {submitting ? "Submitting..." : "Submit Registration"}
+                  {!submitting && <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                </button>
+                <p className="text-center text-xs text-charcoal/40 mt-3">We'll get back to you within 24–48 hours.</p>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
-
 // ─── "Be a Part of the Change" CTA ───────────────────────────────────────────
 
 export function BeAPartCTA() {
@@ -1041,18 +877,43 @@ export function BeAPartCTA() {
 }
 
 export default function Homepage() {
-  const [menuOpen, setMenuOpen] = useState(false);
+const [menuOpen, setMenuOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [volunteerOpen, setVolunteerOpen] = useState(false);
 
-  // Hero autoplay
+  const { team } = useTeam();
+  const { images: galleryImages } = useGallery("home");
+  const { events } = useEvents();
+  const { slides: fetchedSlides } = useHeroSlides("home");
+  const { content: homeContent } = useInitiativeContent("home", { aboutImage: "" });
+
+  const HERO_SLIDES =
+    fetchedSlides.length > 0
+      ? fetchedSlides.map((s) => ({ image: s.image, title: s.title, subtitle: s.subtitle }))
+      : DEFAULT_HERO_SLIDES;
+  const aboutImage = homeContent.aboutImage || communityImg;
+
+  // Defensive read — prevents a crash if activeSlide is briefly out of
+  // range (e.g. right after fetchedSlides swaps in with a different count).
+  const currentHeroSlide = HERO_SLIDES[activeSlide] || HERO_SLIDES[0] || {};
+
+  // Keep activeSlide in range whenever the slide count changes
+  useEffect(() => {
+    if (activeSlide >= HERO_SLIDES.length) {
+      setActiveSlide(0);
+    }
+  }, [HERO_SLIDES.length, activeSlide]);
+
+  // Hero autoplay — depends on HERO_SLIDES.length so the interval is
+  // rebuilt (not left running on a stale slide count) whenever admin
+  // slides load in with a different array length than the defaults.
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
     }, 5500);
     return () => clearInterval(interval);
-  }, []);
+  }, [HERO_SLIDES.length]);
 
   // Navbar scroll effect
   useEffect(() => {
@@ -1194,13 +1055,13 @@ export default function Homepage() {
             className="font-display font-bold text-4xl sm:text-5xl md:text-7xl text-cream leading-[1.1] max-w-3xl animate-fade-in-up"
             style={{ animationDelay: "0.1s" }}
           >
-            {HERO_SLIDES[activeSlide].title}
+            {currentHeroSlide.title}
           </h1>
           <p
             className="mt-5 text-base md:text-xl text-cream/90 max-w-xl animate-fade-in-up"
             style={{ animationDelay: "0.2s" }}
           >
-            {HERO_SLIDES[activeSlide].subtitle}
+            {currentHeroSlide.subtitle}
           </p>
           <div
             className="mt-8 flex flex-wrap gap-4 animate-fade-in-up"
@@ -1267,7 +1128,7 @@ export default function Homepage() {
             <div className="relative">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] md:aspect-[4/5]">
                 <img
-                  src={communityImg}
+                  src={aboutImage}
                   alt="DMS AAROHI volunteers at a community event"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                 />
@@ -1527,9 +1388,9 @@ export default function Homepage() {
           </Reveal>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 auto-rows-[160px] md:auto-rows-[200px]">
-            {GALLERY_IMAGES.map((src, i) => (
+            {galleryImages.map((img, i) => (
               <Reveal
-                key={src}
+                key={img._id}
                 delay={i * 60}
                 className={`${
                   i === 0 ? "col-span-2 row-span-2" : ""
@@ -1537,7 +1398,7 @@ export default function Homepage() {
               >
                 <div className="relative h-full w-full rounded-2xl overflow-hidden group">
                   <img
-                    src={src}
+                    src={img.url}
                     alt={`DMS AAROHI activity ${i + 1}`}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
@@ -1560,14 +1421,14 @@ export default function Homepage() {
             <span className="inline-block text-coral font-semibold uppercase tracking-[0.25em] text-sm mb-3">
               Our Team
             </span>
-            <h2 className="font-display font-bold text-3xl md:text-5xl text-teal leading-tight">
+            <h2 className="font-display font-bold text-3xl md:text-5xl text-teal leading-[1.2] md:leading-[1.3]">
               The people behind every initiative
             </h2>
           </Reveal>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {TEAM.map((member, i) => (
-              <Reveal key={member.name} delay={i * 100}>
+            {team.map((member, i) => (
+              <Reveal key={member._id} delay={i * 100}>
                 <div className="group text-center">
                   <div className="relative rounded-2xl overflow-hidden aspect-[3/4] mb-4 shadow-md">
                     <img
@@ -1609,12 +1470,13 @@ export default function Homepage() {
       {/* ════════════════════════════════════════════════════
           6. UPCOMING EVENTS (Big image cards)
           ════════════════════════════════════════════════════ */}
-      <UpcomingEvents />
+      <UpcomingEvents events={events} />
 
-      {/* ════════════════════════════════════════════════════
-          7. CONTACT (Map + Form)
-          ════════════════════════════════════════════════════ */}
-      <ContactSection />
+      {/* =========================================
+         7. CONTACT (Map + Form)
+        ========================================= */}
+
+        <ContactSection />
 
       {/* "Be a Part of the Change" */}
       <BeAPartCTA />
