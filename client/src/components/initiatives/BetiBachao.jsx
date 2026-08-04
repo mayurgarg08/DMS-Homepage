@@ -8,8 +8,8 @@ import { InitiativePage } from "./shared";
 import { useGallery, useInitiativeContent } from "../../hooks/useSiteData";
 import { useHeroSlides } from "../../hooks/useSiteData";
 
-import heroImg1 from "../../assets/beti-bachao/beti-2.JPG";
-import heroImg2 from "../../assets/beti-bachao/beti-15.JPG";
+import heroImg1 from "../../assets/beti-bachao/beti-2.jpg";
+import heroImg2 from "../../assets/beti-bachao/beti-15.jpg";
 import heroImg3 from "../../assets/beti-bachao/beti-3.jpg";
 import heroImg4 from "../../assets/beti-bachao/beti-8.JPG";
 import aboutImg from "../../assets/beti-bachao/beti-6.jpg";
